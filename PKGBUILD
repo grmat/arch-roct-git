@@ -19,19 +19,12 @@ pkgver() {
 }
 
 build() {
-  cd ${srcdir}/${_pkgname}
-  make ${MAKEFLAGS} all
+  cd ${srcdir}/${_pkgname}/src
+  make ${MAKEFLAGS} package-common
 }
 
 package() {
-  mkdir -p "${pkgdir}/usr/include"
-  cp -r "${srcdir}/${_pkgname}/include" "${pkgdir}/usr/include/libhsakmt"
-
-  cd ${srcdir}/${_pkgname}/build/lnx64a
-  mkdir -p "${pkgdir}/usr/lib"
-  mv "libhsakmt.so" "${pkgdir}/usr/lib/"
-  mv "libhsakmt.so.1" "${pkgdir}/usr/lib/"
-
+  mv ${srcdir}/${_pkgname}/build/package-common/libhsakmt/opt ${pkgdir}
   cd ${srcdir}/${_pkgname}
   make clean
 }
